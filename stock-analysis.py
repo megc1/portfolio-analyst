@@ -1,8 +1,13 @@
 import datetime as dt
 import pandas as pd
 import quandl
+import matplotlib.pyplot as plt
 import os
+from dotenv import load_dotenv
+load_dotenv()
+#REFERENCED: https://docs.quandl.com/docs/python-installation#section-authentication
 
+quandl.ApiConfig.api_key = os.environ.get('QUANDL_API_KEY')
 
 #welcome message
 print("Welcome to your portfolio analysis tool!")
@@ -19,7 +24,9 @@ while True:
         continue
     else:
         stock_tickers.append(ticker_choice)
-
+#TO DO: Create necessary charts
+#To DO: Create necessary Graphs
+#TO DO: Output analysis
 #TO DO: create summary document
 
 
