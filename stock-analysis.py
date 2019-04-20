@@ -40,6 +40,9 @@ plt.figure(figsize=(20, 8))
 for col in returns.columns.values:
     plt.plot(returns.index, returns[col], lw=3, alpha=0.8,label=col)
     plt.legend(loc=1, fontsize=12)
+    plt.ylabel('Individual Daily Returns')
+    plt.xlabel('Date')
+    plt.title('Individual Stock Returns over the Past Year')
 plt.show()
 #TO DO: make dates dynamic
 #TO DO: Output analysis
