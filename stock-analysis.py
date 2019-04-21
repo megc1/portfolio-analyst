@@ -77,7 +77,11 @@ pdf.set_font("Arial", size=24)
 pdf.cell(80, 10, "Your Portfolio Analysis", 0, 2, 'C')
 pdf.set_font("Arial", size = 14)
 pdf.cell(80, 20, "Your portfolio includes " + portfolio_string + " .")
-
+#Referenced documentation: https://pyfpdf.readthedocs.io/en/latest/reference/image/index.html
+pdf.add_page('L')
+w = 70
+h = 60
+pdf.image('past_returns.png', x=0, y=25, w=290, h=140)
 pdf.output("PortfolioAnalysis" + written_date + ".pdf", 'F')
 
 
