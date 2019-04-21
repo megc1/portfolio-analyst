@@ -75,6 +75,9 @@ pdf = FPDF('L', 'mm', 'A4')
 pdf.add_page('L')
 pdf.set_font("Arial", size=24)
 pdf.cell(80, 10, "Your Portfolio Analysis", 0, 2, 'C')
+pdf.set_font("Arial", size = 14)
+pdf.cell(80, 20, "Your portfolio includes " + portfolio_string + " .")
+
 pdf.output("PortfolioAnalysis" + written_date + ".pdf", 'F')
 
 
