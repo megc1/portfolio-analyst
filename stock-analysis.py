@@ -42,13 +42,13 @@ start = dt.datetime.today() - dt.timedelta(days=365)
 end = end.strftime('%Y-%m-%d')
 start = start.strftime('%Y-%m-%d')
 
-#####Quandl wiki no longer updating, useful for 2017-2018 fiscal year data but not today's data
+#Quandl wiki no longer updating, useful for 2017-2018 fiscal year data but not today's data
 data = quandl.get_table('WIKI/PRICES', ticker = stock_tickers, qopts = { 'columns': ['date', 'ticker', 'adj_close'] }, date = { 'gte': '2017-01-01', 'lte': '2018-12-31'}, paginate=True)
 df = data.set_index('date')
 table = df.pivot(columns='ticker')
 returns = table.pct_change()
 
-######Returns chart
+#Returns chart
 plt.figure(figsize=(20, 8))
 for col in returns.columns.values:
     plt.plot(returns.index, returns[col], lw=3, alpha=0.8,label=col)
@@ -58,7 +58,6 @@ for col in returns.columns.values:
     plt.title('Individual Stock Returns in the Last Fiscal Year')
 #REFERENCE: https://matplotlib.org/api/_as_gen/matplotlib.pyplot.savefig.html
 plt.savefig('past_returns.png') #Save chart to png
-######plt.show()
 
 #TO DO: Output analysis
 #TO DO: create summary document
