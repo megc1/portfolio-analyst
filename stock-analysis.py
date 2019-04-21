@@ -64,11 +64,15 @@ plt.savefig('past_returns.png') #Save chart to png
 
 #Reference: https://stackoverflow.com/questions/51864730/python-what-is-the-process-to-create-pdf-reports-with-charts-from-a-db
 #Rerence (FPDF documentation/tutorial/examples): https://github.com/reingart/pyfpdf
+
+written_date = dt.datetime.today().strftime('%Y-%m-%d')
+
 pdf = FPDF('P', 'mm', 'A4')
 pdf.add_page('P')
 pdf.set_font("Arial", size=14)
 pdf.cell(80, 10, "Your Portfolio Analysis", 0, 2, 'C')
 
+pdf.output("PortfolioAnalysis" + written_date + ".pdf", 'F')
 
 
 
