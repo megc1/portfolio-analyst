@@ -31,7 +31,8 @@ while True:
 #REFERENCED: https://pythonprogramming.net/using-quandl-data/
 #REFERENCED: https://plot.ly/matplotlib/figure-labels/
 #REFERENCED: https://docs.quandl.com/docs/python-tables
-data = quandl.get_table('WIKI/PRICES', ticker = stock_tickers, qopts = { 'columns': ['date', 'ticker', 'adj_close'] }, date = { 'gte': '2017-1-1', 'lte': '2018-12-31' }, paginate=True)
+#REFERENCED: https://stackoverflow.com/questions/32490629/getting-todays-date-in-yyyy-mm-dd-in-python, https://stackoverflow.com/questions/5158160/python-get-datetime-for-3-years-ago-today
+data = quandl.get_table('WIKI/PRICES', ticker = stock_tickers, qopts = { 'columns': ['date', 'ticker', 'adj_close'] }, date = { 'gte': '2017-01-01', 'lte': '2018-12-31'}, paginate=True)
 data.head()
 df = data.set_index('date')
 table = df.pivot(columns='ticker')
