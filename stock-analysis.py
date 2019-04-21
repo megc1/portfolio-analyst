@@ -3,7 +3,6 @@ import pandas as pd
 import quandl
 import matplotlib.pyplot as plt
 import os
-import pandas_datareader.data as web
 from dotenv import load_dotenv
 #http://www.fpdf.org/en/tutorial/index.php
 
@@ -59,7 +58,17 @@ for col in returns.columns.values:
 plt.savefig('past_returns.png') #Save chart to png
 ######plt.show()
 
-
-
 #TO DO: Output analysis
 #TO DO: create summary document
+
+
+#Reference: https://stackoverflow.com/questions/51864730/python-what-is-the-process-to-create-pdf-reports-with-charts-from-a-db
+#Rerence (FPDF documentation/tutorial/examples): https://github.com/reingart/pyfpdf
+pdf = FPDF('P', 'mm', 'A4')
+pdf.add_page('P')
+pdf.set_font("Arial", size=14)
+pdf.cell(80, 10, "Your Portfolio Analysis", 0, 2, 'C')
+
+
+
+
