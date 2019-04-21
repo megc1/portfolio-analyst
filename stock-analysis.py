@@ -4,6 +4,7 @@ import quandl
 import matplotlib.pyplot as plt
 import os
 from dotenv import load_dotenv
+from yahoo_fin.stock_info import get_data, get_analysts_info
 #http://www.fpdf.org/en/tutorial/index.php
 from fpdf import FPDF
 #REFERENCED: https://www.programcreek.com/python/example/90889/dotenv.load_dotenv
