@@ -44,7 +44,7 @@ start = start.strftime('%Y-%m-%d')
 
 #####Quandl wiki no longer updating, useful for 2017-2018 fiscal year data but not today's data
 data = quandl.get_table('WIKI/PRICES', ticker = stock_tickers, qopts = { 'columns': ['date', 'ticker', 'adj_close'] }, date = { 'gte': '2017-01-01', 'lte': '2018-12-31'}, paginate=True)
-df = stock_data.set_index('date')
+df = data.set_index('date')
 table = df.pivot(columns='ticker')
 returns = table.pct_change()
 
