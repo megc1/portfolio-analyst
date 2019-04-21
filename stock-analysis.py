@@ -66,12 +66,15 @@ plt.savefig('past_returns.png') #Save chart to png
 #Rerence (FPDF documentation/tutorial/examples): https://github.com/reingart/pyfpdf
 
 written_date = dt.datetime.today().strftime('%Y-%m-%d')
+portfolio_list = []
+for ticker in stock_tickers:
+    portfolio_list.append(ticker)
+portfolio_string = ", ".join(portfolio_list)
 
-pdf = FPDF('P', 'mm', 'A4')
-pdf.add_page('P')
-pdf.set_font("Arial", size=14)
+pdf = FPDF('L', 'mm', 'A4')
+pdf.add_page('L')
+pdf.set_font("Arial", size=24)
 pdf.cell(80, 10, "Your Portfolio Analysis", 0, 2, 'C')
-
 pdf.output("PortfolioAnalysis" + written_date + ".pdf", 'F')
 
 
