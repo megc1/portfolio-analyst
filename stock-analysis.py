@@ -52,9 +52,9 @@ year_category = "Next Year (" + next_year + ")"
 earnings_estimates = []
 eps_trends = []
 growth_estimates = []
-#TODO: fill in lists with actual data from yahoo fin
 
-#analysts_data = get_analysts_info("amzn")
+
+
 for ticker in stock_tickers:
     analysts_data = get_analysts_info(ticker)
     this_earnings_est = analysts_data['Earnings Estimate'].iloc[1][4]
@@ -63,9 +63,6 @@ for ticker in stock_tickers:
     eps_trends.append(this_eps_trend)
     this_gest = analysts_data['Growth Estimates'].iloc[0][1]
     growth_estimates.append(this_gest)
-print(growth_estimates)
-print(earnings_estimates)
-print(eps_trends)
 
 
 #Quandl wiki no longer updating, useful for 2017-2018 fiscal year data but not today's data
