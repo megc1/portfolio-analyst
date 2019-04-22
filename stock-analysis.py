@@ -13,6 +13,8 @@ load_dotenv()
 #REFERENCED: https://docs.quandl.com/docs/python-installation#section-authentication
 quandl.ApiConfig.api_key = os.environ.get('QUANDL_API_KEY')
 
+
+
 #welcome message
 print("Welcome to your portfolio analysis tool!")
 stock_tickers = [] #ticker symbols of stocks in portfolio
@@ -42,11 +44,20 @@ start = dt.datetime.today() - dt.timedelta(days=365)
 end = end.strftime('%Y-%m-%d')
 start = start.strftime('%Y-%m-%d')
 
+#Yahoo Finance Workaround
+#TODO: loop to find analyst data for each stock ticher
+#TODO: separate pertinent information from dataframe
+analysts_data = get_analysts_info("amzn")
+newlist = list()
+for value in analysts_data.values():
+   print(value)
+
 #Quandl wiki no longer updating, useful for 2017-2018 fiscal year data but not today's data
 data = quandl.get_table('WIKI/PRICES', ticker = stock_tickers, qopts = { 'columns': ['date', 'ticker', 'adj_close'] }, date = { 'gte': '2017-01-01', 'lte': '2018-12-31'}, paginate=True)
 df = data.set_index('date')
 table = df.pivot(columns='ticker')
 returns = table.pct_change()
+
 
 #Returns chart
 plt.figure(figsize=(20, 8))
