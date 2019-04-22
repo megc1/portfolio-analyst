@@ -45,8 +45,6 @@ end = end.strftime('%Y-%m-%d')
 start = start.strftime('%Y-%m-%d')
 
 #Yahoo Finance Workaround
-#TODO: loop to find analyst data for each stock ticher
-#TODO: separate pertinent information from dataframe
 next_year = str(dt.date.today().year + 1)
 year_category = "Next Year (" + next_year + ")"
 earnings_estimates = []
@@ -82,13 +80,11 @@ for col in returns.columns.values:
 #REFERENCE: https://matplotlib.org/api/_as_gen/matplotlib.pyplot.savefig.html
 plt.savefig('past_returns.png') #Save chart to png
 
-#TO DO: Output analysis
-#TO DO: create summary document
+
 
 
 #Reference: https://stackoverflow.com/questions/51864730/python-what-is-the-process-to-create-pdf-reports-with-charts-from-a-db
-#Rerence (FPDF documentation/tutorial/examples): https://github.com/reingart/pyfpdf
-
+#Reference (FPDF documentation/tutorial/examples): https://github.com/reingart/pyfpdf
 written_date = dt.datetime.today().strftime('%Y-%m-%d')
 portfolio_list = []
 for ticker in stock_tickers:
@@ -105,7 +101,7 @@ portfolio_string = ", ".join(portfolio_list)
 #REFERENCED: https://www.youtube.com/watch?v=1tw9KW6JspY
 analysis_table = [[' Stock ', ' Earnings Estimate ', ' Growth Estimate ', ' EPS Trend '], stock_tickers, earnings_estimates, eps_trends, growth_estimates]
 def maketable(analysis_table):
-#header
+    #header
     output = " "
     for item in analysis_table[0]:
         output += "    |" + str(item)
@@ -124,7 +120,6 @@ pdf.cell(80, 10, "Your Portfolio Analysis", 0, 2, 'C')
 pdf.set_font("Arial", size = 14)
 pdf.cell(80, 25, "Your portfolio includes " + portfolio_string + " .")
 pdf.cell(70, 40, " ", 0, 2, 'C')
-#pdf.cell(-40)
 pdf.set_font('Arial', size = 12)
 #REFERENCE: https://pyfpdf.readthedocs.io/en/latest/reference/multi_cell/index.html
 pdf.multi_cell(100, 10, maketable(analysis_table), 0, 4, 'C')
