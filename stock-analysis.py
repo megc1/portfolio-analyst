@@ -108,7 +108,10 @@ pdf.cell(80, 10, "Your Portfolio Analysis", 0, 2, 'C')
 pdf.set_font("Arial", size = 14)
 pdf.cell(80, 20, "Your portfolio includes " + portfolio_string + " .")
 pdf.cell(90, 10, " ", 0, 2, 'C')
-##add data table
+pdf.cell(-40)
+pdf.set_font('Arial', size = 12)
+pdf.cell(90, 10, print (maketable(analysis_table)), 0, 2, 'C')
+pdf.cell(-30)
 #Referenced documentation: https://pyfpdf.readthedocs.io/en/latest/reference/image/index.html
 pdf.add_page('L')
 w = 70
