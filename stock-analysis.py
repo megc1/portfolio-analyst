@@ -58,6 +58,7 @@ growth_estimates = []
 for ticker in stock_tickers:
     analysts_data = get_analysts_info(ticker)
     this_earnings_est = analysts_data['Earnings Estimate'].iloc[1][4]
+    earnings_estimates.append(this_earnings_est)
 print(earnings_estimates)
 
 
