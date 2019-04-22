@@ -54,7 +54,6 @@ eps_trends = []
 growth_estimates = []
 
 
-
 for ticker in stock_tickers:
     analysts_data = get_analysts_info(ticker)
     this_earnings_est = analysts_data['Earnings Estimate'].iloc[1][4]
@@ -128,7 +127,7 @@ pdf.cell(70, 40, " ", 0, 2, 'C')
 #pdf.cell(-40)
 pdf.set_font('Arial', size = 12)
 #REFERENCE: https://pyfpdf.readthedocs.io/en/latest/reference/multi_cell/index.html
-pdf.multi_cell(150, 10, maketable(analysis_table), 0, 4, 'C')
+pdf.multi_cell(100, 10, maketable(analysis_table), 0, 4, 'C')
 pdf.cell(-30)
 #Referenced documentation: https://pyfpdf.readthedocs.io/en/latest/reference/image/index.html
 pdf.add_page('L')
