@@ -4,7 +4,7 @@ import quandl
 import matplotlib.pyplot as plt
 import os
 from dotenv import load_dotenv
-from yahoo_fin.stock_info import get_data, get_analysts_info
+from yahoo_fin.stock_info import get_analysts_info
 #http://www.fpdf.org/en/tutorial/index.php
 from fpdf import FPDF
 #REFERENCED: https://www.programcreek.com/python/example/90889/dotenv.load_dotenv
@@ -47,10 +47,15 @@ start = start.strftime('%Y-%m-%d')
 #Yahoo Finance Workaround
 #TODO: loop to find analyst data for each stock ticher
 #TODO: separate pertinent information from dataframe
+next_year = str(dt.date.today().year + 1)
+year_category = "Next Year (" + next_year + ")"
+earnings_estimates = [1, 2, 3]
+eps_trends = [4, 5, 6]
+growth_estimates = [7, 8, 9]
+#TODO: fill in lists with actual data from yahoo fin
+
 analysts_data = get_analysts_info("amzn")
-newlist = list()
-for value in analysts_data.values():
-   print(value)
+
 
 #Quandl wiki no longer updating, useful for 2017-2018 fiscal year data but not today's data
 data = quandl.get_table('WIKI/PRICES', ticker = stock_tickers, qopts = { 'columns': ['date', 'ticker', 'adj_close'] }, date = { 'gte': '2017-01-01', 'lte': '2018-12-31'}, paginate=True)
@@ -59,20 +64,33 @@ table = df.pivot(columns='ticker')
 returns = table.pct_change()
 
 
-#Returns chart
+# #Returns chart
 plt.figure(figsize=(20, 8))
 for col in returns.columns.values:
     plt.plot(returns.index, returns[col], lw=3, alpha=0.8,label=col)
     plt.legend(loc=1, fontsize=12)
     plt.ylabel('Individual Daily Returns')
     plt.xlabel('Date')
-    plt.title('Individual Stock Returns in the Last Fiscal Year')
+    plt.title('How have your stocks performed in the past?')
 #REFERENCE: https://matplotlib.org/api/_as_gen/matplotlib.pyplot.savefig.html
 plt.savefig('past_returns.png') #Save chart to png
 
 #TO DO: Output analysis
 #TO DO: create summary document
-
+#REFERENCED: https://www.youtube.com/watch?v=1tw9KW6JspY
+analysis_table = [[' Stock ', ' Earnings Estimate ', ' Growth Estimate ', ' EPS Trend '], earnings_estimates, eps_trends, growth_estimates]
+def maketable(analysis_table):
+#header
+    output = " "
+    for item in analysis_table[0]:
+        output += "|" + str(item)
+    output += "\n--------------------------------------------------------------------------"
+    #rows
+    for item in analysis_table[1:]:
+        output += "\n"
+        for est in item:
+            output += "|" + str(est)  
+    return output
 
 #Reference: https://stackoverflow.com/questions/51864730/python-what-is-the-process-to-create-pdf-reports-with-charts-from-a-db
 #Rerence (FPDF documentation/tutorial/examples): https://github.com/reingart/pyfpdf
@@ -89,6 +107,8 @@ pdf.set_font("Arial", size=24)
 pdf.cell(80, 10, "Your Portfolio Analysis", 0, 2, 'C')
 pdf.set_font("Arial", size = 14)
 pdf.cell(80, 20, "Your portfolio includes " + portfolio_string + " .")
+pdf.cell(90, 10, " ", 0, 2, 'C')
+##add data table
 #Referenced documentation: https://pyfpdf.readthedocs.io/en/latest/reference/image/index.html
 pdf.add_page('L')
 w = 70
