@@ -77,20 +77,7 @@ plt.savefig('past_returns.png') #Save chart to png
 
 #TO DO: Output analysis
 #TO DO: create summary document
-#REFERENCED: https://www.youtube.com/watch?v=1tw9KW6JspY
-analysis_table = [[' Stock ', ' Earnings Estimate ', ' Growth Estimate ', ' EPS Trend '], earnings_estimates, eps_trends, growth_estimates]
-def maketable(analysis_table):
-#header
-    output = " "
-    for item in analysis_table[0]:
-        output += "|" + str(item)
-    output += "\n--------------------------------------------------------------------------"
-    #rows
-    for item in analysis_table[1:]:
-        output += "\n"
-        for est in item:
-            output += "|" + str(est)  
-    return output
+
 
 #Reference: https://stackoverflow.com/questions/51864730/python-what-is-the-process-to-create-pdf-reports-with-charts-from-a-db
 #Rerence (FPDF documentation/tutorial/examples): https://github.com/reingart/pyfpdf
@@ -101,16 +88,39 @@ for ticker in stock_tickers:
     portfolio_list.append(ticker)
 portfolio_string = ", ".join(portfolio_list)
 
+
+
+
+
+
+
+
+#REFERENCED: https://www.youtube.com/watch?v=1tw9KW6JspY
+analysis_table = [[' Stock ', ' Earnings Estimate ', ' Growth Estimate ', ' EPS Trend '], stock_tickers, earnings_estimates, eps_trends, growth_estimates]
+def maketable(analysis_table):
+#header
+    output = " "
+    for item in analysis_table[0]:
+        output += "    |" + str(item)
+    output += "\n-------------------------------------------------------------------------------"
+    #rows
+    for item in analysis_table[1:]:
+        output += "\n"
+        for est in item:
+            output += "    |    " + str(est)  
+    return output
+
 pdf = FPDF('L', 'mm', 'A4')
 pdf.add_page('L')
 pdf.set_font("Arial", size=24)
 pdf.cell(80, 10, "Your Portfolio Analysis", 0, 2, 'C')
 pdf.set_font("Arial", size = 14)
-pdf.cell(80, 20, "Your portfolio includes " + portfolio_string + " .")
-pdf.cell(90, 10, " ", 0, 2, 'C')
-pdf.cell(-40)
+pdf.cell(80, 25, "Your portfolio includes " + portfolio_string + " .")
+pdf.cell(70, 40, " ", 0, 2, 'C')
+#pdf.cell(-40)
 pdf.set_font('Arial', size = 12)
-pdf.cell(90, 10, print (maketable(analysis_table)), 0, 2, 'C')
+#REFERENCE: https://pyfpdf.readthedocs.io/en/latest/reference/multi_cell/index.html
+pdf.multi_cell(150, 10, maketable(analysis_table), 0, 4, 'C')
 pdf.cell(-30)
 #Referenced documentation: https://pyfpdf.readthedocs.io/en/latest/reference/image/index.html
 pdf.add_page('L')
