@@ -4,15 +4,15 @@ import quandl
 import matplotlib.pyplot as plt
 import os
 from dotenv import load_dotenv
-from yahoo_fin.stock_info import get_analysts_info
+from yahoo_fin.stock_info import get_analysts_info, get_data
 #http://www.fpdf.org/en/tutorial/index.php
 from fpdf import FPDF
 #REFERENCED: https://www.programcreek.com/python/example/90889/dotenv.load_dotenv
 load_dotenv()
 
+#API Configuration
 #REFERENCED: https://docs.quandl.com/docs/python-installation#section-authentication
 quandl.ApiConfig.api_key = os.environ.get('QUANDL_API_KEY')
-
 
 
 #welcome message
@@ -49,12 +49,16 @@ start = start.strftime('%Y-%m-%d')
 #TODO: separate pertinent information from dataframe
 next_year = str(dt.date.today().year + 1)
 year_category = "Next Year (" + next_year + ")"
-earnings_estimates = [1, 2, 3]
-eps_trends = [4, 5, 6]
-growth_estimates = [7, 8, 9]
+earnings_estimates = []
+eps_trends = []
+growth_estimates = []
 #TODO: fill in lists with actual data from yahoo fin
 
-analysts_data = get_analysts_info("amzn")
+#analysts_data = get_analysts_info("amzn")
+for ticker in stock_tickers:
+    analysts_data = get_analysts_info(ticker)
+    this_earnings_est = analysts_data['Earnings Estimate'].iloc[1][4]
+print(earnings_estimates)
 
 
 #Quandl wiki no longer updating, useful for 2017-2018 fiscal year data but not today's data
