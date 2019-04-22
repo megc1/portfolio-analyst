@@ -59,6 +59,7 @@ for ticker in stock_tickers:
     analysts_data = get_analysts_info(ticker)
     this_earnings_est = analysts_data['Earnings Estimate'].iloc[1][4]
     earnings_estimates.append(this_earnings_est)
+    this_eps_trend = analysts_data['EPS Trend'].iloc[0][4]
 print(earnings_estimates)
 
 
