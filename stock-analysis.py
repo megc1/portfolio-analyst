@@ -60,7 +60,9 @@ for ticker in stock_tickers:
     this_earnings_est = analysts_data['Earnings Estimate'].iloc[1][4]
     earnings_estimates.append(this_earnings_est)
     this_eps_trend = analysts_data['EPS Trend'].iloc[0][4]
+    eps_trends.append(this_eps_trend)
 print(earnings_estimates)
+print(eps_trends)
 
 
 #Quandl wiki no longer updating, useful for 2017-2018 fiscal year data but not today's data
