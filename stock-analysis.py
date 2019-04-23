@@ -61,12 +61,14 @@ for ticker in stock_tickers:
     eps_trends.append(this_eps_trend)
     this_gest = analysts_data['Growth Estimates'].iloc[0][1]
     growth_estimates.append(this_gest)
-    if this_gest < 0:
+    if '-' in this_gest:
         negative_growth_stocks.append(ticker)
+        
     else:
         positive_growth_stocks.append(ticker)
     
-
+neg_growth_string = ", ".join(negative_growth_stocks)
+pos_growth_string = ", ".join(positive_growth_stocks)
 
 #Quandl wiki no longer updating, useful for 2017-2018 fiscal year data but not today's data
 data = quandl.get_table('WIKI/PRICES', ticker = stock_tickers, qopts = { 'columns': ['date', 'ticker', 'adj_close'] }, date = { 'gte': '2017-01-01', 'lte': '2018-12-31'}, paginate=True)
@@ -99,11 +101,6 @@ portfolio_string = ", ".join(portfolio_list)
 
 
 
-
-
-
-
-
 #REFERENCED: https://www.youtube.com/watch?v=1tw9KW6JspY
 analysis_table = [[' Stock '], stock_tickers, [' Earnings Estimate '], earnings_estimates, [' EPS Trend '], eps_trends, [' Growth Estimate '], growth_estimates]
 def maketable(analysis_table):
@@ -133,7 +130,9 @@ pdf.set_font('Arial', size = 12)
 #pdf.multi_cell(100, 0, "Stock: " + "\n Earnings Estimate " + "\n Growth Estimate " + "\n EPS Trend", 0, 4, 'C')
 pdf.multi_cell(0, 10, maketable(analysis_table), 0, 4, 'C')
 #pdf.cell(-30)
-pdf.cell(10, 10, "Positive growth stocks may indicate future profitability. Consider further evaluating negative growth stocks within your portfolio.")
+pdf.cell(10, 25, "Positive growth stocks may indicate future profitability. Consider further evaluating negative growth stocks within your portfolio.")
+pdf.cell(50, 25, "Your positive growth stocks: " + pos_growth_string + ".", 6, 4, 'C')
+pdf.cell(50, 25, "Your negative growth stocks: " + neg_growth_string + ".", 6, 4, 'C')
 #Referenced documentation: https://pyfpdf.readthedocs.io/en/latest/reference/image/index.html
 pdf.add_page('L')
 w = 70
