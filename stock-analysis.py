@@ -50,7 +50,8 @@ year_category = "Next Year (" + next_year + ")"
 earnings_estimates = []
 eps_trends = []
 growth_estimates = []
-
+negative_growth_stocks = []
+positive_growth_stocks = []
 
 for ticker in stock_tickers:
     analysts_data = get_analysts_info(ticker)
@@ -60,6 +61,11 @@ for ticker in stock_tickers:
     eps_trends.append(this_eps_trend)
     this_gest = analysts_data['Growth Estimates'].iloc[0][1]
     growth_estimates.append(this_gest)
+    if this_gest < 0:
+        negative_growth_stocks.append(ticker)
+    else:
+        positive_growth_stocks.append(ticker)
+    
 
 
 #Quandl wiki no longer updating, useful for 2017-2018 fiscal year data but not today's data
