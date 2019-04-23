@@ -113,6 +113,8 @@ def maketable(analysis_table):
             output += "  |   " + str(est)  +   "  |   "
     return output
 
+
+
 pdf = FPDF('L', 'mm', 'A4')
 pdf.add_page('L')
 pdf.set_font("Arial", size=24)
@@ -124,7 +126,8 @@ pdf.set_font('Arial', size = 12)
 #REFERENCE: https://pyfpdf.readthedocs.io/en/latest/reference/multi_cell/index.html
 #pdf.multi_cell(100, 0, "Stock: " + "\n Earnings Estimate " + "\n Growth Estimate " + "\n EPS Trend", 0, 4, 'C')
 pdf.multi_cell(0, 10, maketable(analysis_table), 0, 4, 'C')
-pdf.cell(-30)
+#pdf.cell(-30)
+pdf.cell(10, 10, "Positive growth stocks may indicate future profitability. Consider further evaluating negative growth stocks within your portfolio.")
 #Referenced documentation: https://pyfpdf.readthedocs.io/en/latest/reference/image/index.html
 pdf.add_page('L')
 w = 70
