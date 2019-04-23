@@ -99,18 +99,18 @@ portfolio_string = ", ".join(portfolio_list)
 
 
 #REFERENCED: https://www.youtube.com/watch?v=1tw9KW6JspY
-analysis_table = [[' Stock ', ' Earnings Estimate ', ' Growth Estimate ', ' EPS Trend '], stock_tickers, earnings_estimates, eps_trends, growth_estimates]
+analysis_table = [[' Stock '], stock_tickers, [' Earnings Estimate '], earnings_estimates, [' EPS Trend '], eps_trends, [' Growth Estimate '], growth_estimates]
 def maketable(analysis_table):
     #header
-    output = " "
-    for item in analysis_table[0]:
-        output += "    |" + str(item)
-    output += "\n-------------------------------------------------------------------------------"
+    output = " Performance Metrics by Stock "
+    # for item in analysis_table[0]:
+    #     output += "    |" + str(item)
+    output += "\n------------------------------------------------------------------"
     #rows
-    for item in analysis_table[1:]:
+    for item in analysis_table[0:]:
         output += "\n"
         for est in item:
-            output += "    |    " + str(est)  
+            output += "  |   " + str(est)  +   "  |   "
     return output
 
 pdf = FPDF('L', 'mm', 'A4')
@@ -122,7 +122,8 @@ pdf.cell(80, 25, "Your portfolio includes " + portfolio_string + " .")
 pdf.cell(70, 40, " ", 0, 2, 'C')
 pdf.set_font('Arial', size = 12)
 #REFERENCE: https://pyfpdf.readthedocs.io/en/latest/reference/multi_cell/index.html
-pdf.multi_cell(100, 10, maketable(analysis_table), 0, 4, 'C')
+#pdf.multi_cell(100, 0, "Stock: " + "\n Earnings Estimate " + "\n Growth Estimate " + "\n EPS Trend", 0, 4, 'C')
+pdf.multi_cell(0, 10, maketable(analysis_table), 0, 4, 'C')
 pdf.cell(-30)
 #Referenced documentation: https://pyfpdf.readthedocs.io/en/latest/reference/image/index.html
 pdf.add_page('L')
