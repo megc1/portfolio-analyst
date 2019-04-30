@@ -21,3 +21,7 @@ Yahoo fin has the following dependencies: io, pandas, requests, requests_html. E
 
 To run this program, navigate to the command line of your computer and activate your virtual environment. Use the command line to navigate to your portfolio-analyst folder and run stock-analysis.py
 
+## How to use:
+
+Follow the prompts given to you on the command line and enter the ticker symbols for each stock you would like to include in your portfolio. Enter "Done" when finished. The program will create a portfolio pdf for you, titled with the following format: Portfolio-AnalysisYYYY-MM-DD.pdf using the date you ran the analysis which you can refer to by navigating to your portfolio-analyst folder. 
+
