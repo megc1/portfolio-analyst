@@ -18,6 +18,10 @@ quandl.ApiConfig.api_key = os.environ.get('QUANDL_API_KEY')
 #welcome message
 print("Welcome to your portfolio analysis tool!")
 stock_tickers = [] #ticker symbols of stocks in portfolio
+data = []
+#make sure ticker symbol is value
+def check_ticker(ticker_symbol):
+    return get_data(ticker_symbol)
 
 #Input validation of stock tickers
 #TO DO: add validation to look up stock ticker and make sure it exists 
@@ -31,7 +35,13 @@ while True:
         print("This doesn't seem to be a valid stock ticker. Please try again!")
         continue
     else:
-        stock_tickers.append(ticker_choice)
+        try:
+            check_ticker(ticker_choice)
+            stock_tickers.append(ticker_choice)
+        except ValueError:
+            print("Having trouble finding that ticker symbol! Please check if it is correct and try again.")
+
+
 
 
 #REFERENCED: https://www.quandl.com/tools/python
@@ -69,6 +79,7 @@ for ticker in stock_tickers:
     
 neg_growth_string = ", ".join(negative_growth_stocks)
 pos_growth_string = ", ".join(positive_growth_stocks)
+
 
 #Quandl wiki no longer updating, useful for 2017-2018 fiscal year data but not today's data
 data = quandl.get_table('WIKI/PRICES', ticker = stock_tickers, qopts = { 'columns': ['date', 'ticker', 'adj_close'] }, date = { 'gte': '2017-01-01', 'lte': '2018-12-31'}, paginate=True)
