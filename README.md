@@ -17,3 +17,7 @@ quandl
 
 Yahoo fin has the following dependencies: io, pandas, requests, requests_html. Each of these comes with anaconda, except for requests_html which you must install.
 
+## To run:
+
+To run this program, navigate to the command line of your computer and activate your virtual environment. Use the command line to navigate to your portfolio-analyst folder and run stock-analysis.py
+
