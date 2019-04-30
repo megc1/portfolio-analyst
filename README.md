@@ -8,9 +8,9 @@ Fork this repository to your local device. Create a virtual environment for this
 
 ## Installations:
 Using pip, install the following:
-pandas
-matplotlib
-python-dotenv
-fpdf
-yahoo fin
+pandas, 
+matplotlib, 
+python-dotenv, 
+fpdf, 
+yahoo fin, 
 quandl
