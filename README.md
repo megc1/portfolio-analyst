@@ -7,3 +7,10 @@ This program provides extra information about the user's stock portfolio by allo
 Fork this repository to your local device. Create a virtual environment for this project and install the necessary packages (listed under installations).
 
 ## Installations:
+Using pip, install the following:
+pandas
+matplotlib
+python-dotenv
+fpdf
+yahoo fin
+quandl
