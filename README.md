@@ -12,5 +12,8 @@ pandas,
 matplotlib, 
 python-dotenv, 
 fpdf, 
-yahoo fin, 
+yahoo-fin, 
 quandl
+
+Yahoo fin has the following dependencies: io, pandas, requests, requests_html. Each of these comes with anaconda, except for requests_html which you must install.
+
