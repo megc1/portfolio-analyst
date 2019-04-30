@@ -79,6 +79,8 @@ neg_growth_string = ", ".join(negative_growth_stocks)
 pos_growth_string = ", ".join(positive_growth_stocks)
 
 
+
+
 #Quandl wiki no longer updating, useful for 2017-2018 fiscal year data but not today's data
 data = quandl.get_table('WIKI/PRICES', ticker = stock_tickers, qopts = { 'columns': ['date', 'ticker', 'adj_close'] }, date = { 'gte': '2017-01-01', 'lte': '2018-12-31'}, paginate=True)
 df = data.set_index('date')
@@ -115,8 +117,6 @@ analysis_table = [[' Stock '], stock_tickers, [' Earnings Estimate '], earnings_
 def maketable(analysis_table):
     #header
     output = " Performance Metrics by Stock "
-    # for item in analysis_table[0]:
-    #     output += "    |" + str(item)
     output += "\n------------------------------------------------------------------"
     #rows
     for item in analysis_table[0:]:
