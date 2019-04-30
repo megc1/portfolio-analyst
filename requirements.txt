@@ -1,0 +1,7 @@
+pandas
+matplotlib
+python-dotenv
+fpdf
+yahoo_fin
+requests_html
+pytest
