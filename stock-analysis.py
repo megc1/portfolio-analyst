@@ -42,8 +42,6 @@ while True:
             print("Having trouble finding that ticker symbol! Please check if it is correct and try again.")
 
 
-
-
 #REFERENCED: https://www.quandl.com/tools/python
 #REFERENCED: https://pythonprogramming.net/using-quandl-data/
 #REFERENCED: https://plot.ly/matplotlib/figure-labels/
