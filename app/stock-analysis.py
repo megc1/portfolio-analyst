@@ -23,7 +23,6 @@ data = []
 def check_ticker(ticker_symbol):
     return get_data(ticker_symbol)
 
-
 #Input validation of stock tickers
 #TO DO: add validation to look up stock ticker and make sure it exists 
 while True: 
@@ -105,7 +104,6 @@ sorted_growth = sort_growth(growth_estimates)
 #find smallest growth, highest growth, and average growth
 lowest_growth = (min_growth(sorted_growth))
 highest_growth = (max_growth(sorted_growth))
-#average_growth = (avg_growth(sorted_growth))
 
 
 #Quandl wiki no longer updating, useful for 2017-2018 fiscal year data but not today's data
@@ -115,7 +113,7 @@ table = df.pivot(columns='ticker')
 returns = table.pct_change()
 
 
-# #Returns chart
+#Returns chart
 plt.figure(figsize=(20, 8))
 for col in returns.columns.values:
     plt.plot(returns.index, returns[col], lw=3, alpha=0.8,label=col)
@@ -162,7 +160,6 @@ pdf.cell(80, 25, "Your portfolio includes " + portfolio_string + " .")
 pdf.cell(20, 20, " ", 0, 2, 'C')
 pdf.set_font('Arial', size = 12)
 #REFERENCE: https://pyfpdf.readthedocs.io/en/latest/reference/multi_cell/index.html
-#pdf.multi_cell(100, 0, "Stock: " + "\n Earnings Estimate " + "\n Growth Estimate " + "\n EPS Trend", 0, 4, 'C')
 pdf.multi_cell(0, 10, maketable(analysis_table), 0, 4, 'C')
 #pdf.cell(-30)
 pdf.cell(10, 15, "Positive growth stocks may indicate future profitability. Consider further evaluating negative growth stocks within your portfolio.")
