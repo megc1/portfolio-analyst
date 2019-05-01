@@ -26,3 +26,6 @@ def test_min_growth():
     assert result == '1.0 %'
 
 
+def test_max_growth():
+    result = max_growth(test_sorted_list)
+    assert result == '9.5 %'
