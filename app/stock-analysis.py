@@ -14,10 +14,15 @@ load_dotenv()
 #REFERENCED: https://docs.quandl.com/docs/python-installation#section-authentication
 quandl.ApiConfig.api_key = os.environ.get('QUANDL_API_KEY')
 
-
 #welcome message
 print("Welcome to your portfolio analysis tool!")
 stock_tickers = [] #ticker symbols of stocks in portfolio
+data = []
+
+#make sure ticker symbol is value by testing using start date 04-01-2019
+def check_ticker(ticker_symbol):
+    return get_data(ticker_symbol)
+
 
 #Input validation of stock tickers
 #TO DO: add validation to look up stock ticker and make sure it exists 
@@ -31,7 +36,11 @@ while True:
         print("This doesn't seem to be a valid stock ticker. Please try again!")
         continue
     else:
-        stock_tickers.append(ticker_choice)
+        try:
+            check_ticker(ticker_choice)
+            stock_tickers.append(ticker_choice)
+        except ValueError:
+            print("Having trouble finding that ticker symbol! Please check if it is correct and try again.")
 
 
 #REFERENCED: https://www.quandl.com/tools/python
@@ -70,6 +79,35 @@ for ticker in stock_tickers:
 neg_growth_string = ", ".join(negative_growth_stocks)
 pos_growth_string = ", ".join(positive_growth_stocks)
 
+average_value = 0.0
+min_value = 0.0
+max_value = 0.0
+list_length = 0
+
+#sorting percentages tutorial: https://www.geeksforgeeks.org/python-sort-a-list-of-percentage/
+def sort_growth(a_list):
+    a_list.sort(key = lambda x: float (x[:-1]))
+    return a_list
+
+#gets smallest growth percentage
+def min_growth(b_list):
+    min_value = sort_growth(b_list)[0]
+    return min_value
+
+#gets largest growth percentage
+def max_growth(c_list):
+    max_value = sort_growth(c_list)[-1]
+    return max_value
+
+#growth estimates sorted and converted to float:
+sorted_growth = sort_growth(growth_estimates)
+
+#find smallest growth, highest growth, and average growth
+lowest_growth = (min_growth(sorted_growth))
+highest_growth = (max_growth(sorted_growth))
+#average_growth = (avg_growth(sorted_growth))
+
+
 #Quandl wiki no longer updating, useful for 2017-2018 fiscal year data but not today's data
 data = quandl.get_table('WIKI/PRICES', ticker = stock_tickers, qopts = { 'columns': ['date', 'ticker', 'adj_close'] }, date = { 'gte': '2017-01-01', 'lte': '2018-12-31'}, paginate=True)
 df = data.set_index('date')
@@ -100,14 +138,11 @@ for ticker in stock_tickers:
 portfolio_string = ", ".join(portfolio_list)
 
 
-
 #REFERENCED: https://www.youtube.com/watch?v=1tw9KW6JspY
 analysis_table = [[' Stock '], stock_tickers, [' Earnings Estimate '], earnings_estimates, [' EPS Trend '], eps_trends, [' Growth Estimate '], growth_estimates]
 def maketable(analysis_table):
     #header
     output = " Performance Metrics by Stock "
-    # for item in analysis_table[0]:
-    #     output += "    |" + str(item)
     output += "\n------------------------------------------------------------------"
     #rows
     for item in analysis_table[0:]:
@@ -131,6 +166,8 @@ pdf.set_font('Arial', size = 12)
 pdf.multi_cell(0, 10, maketable(analysis_table), 0, 4, 'C')
 #pdf.cell(-30)
 pdf.cell(10, 15, "Positive growth stocks may indicate future profitability. Consider further evaluating negative growth stocks within your portfolio.")
+pdf.cell(10, 5, " ", 0, 2, 'C')
+pdf.cell(10, 15, "The growth estimaates in your portfolio range from "  + lowest_growth + " to " + highest_growth + ".")
 pdf.cell(20, 10, " ", 0, 2, 'C')
 pdf.cell(0, 10, "Your positive growth stocks: " + pos_growth_string + ".", 6, 4, 'C')
 pdf.cell(20, 10, " ", 0, 2, 'C')
