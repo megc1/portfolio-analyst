@@ -1,12 +1,4 @@
-
 import pytest
-import datetime as dt
-import pandas as pd
-import quandl
-import os
-from dotenv import load_dotenv
-from yahoo_fin.stock_info import get_analysts_info, get_data
-load_dotenv()
 
 from app.stock-analysis import sort_growth
 
