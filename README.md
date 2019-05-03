@@ -56,3 +56,7 @@ It is recommended to deploy the project to a continuous integration service, suc
 ## License
 
 This program is licensed under the terms of the MIT License. For more detailed information see [LICENSE.md](LICENSE.md).
+
+## Reference List
+
+For a list of references, see [CREDITS.md](CREDITS.md)

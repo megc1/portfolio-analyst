@@ -29,6 +29,10 @@
   3. https://docs.quandl.com/docs/python-tables  
 
 
-
 ## Testing and CI
+
+  1. https://github.com/s2t2/testing-123-py  
+  2. https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/83cc5316cf7b132190b253a2697cd13907e179a8/notes/travis-ci.md  
+  
+
 
