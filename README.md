@@ -16,14 +16,15 @@ Python 3.7, Pip
 ### Installations
 
 Using pip, install the following in your virtual environment:
-pandas,
-matplotlib,
-python-dotenv,
-fpdf,
-yahoo-fin,
-quandl
-
-Yahoo fin has the following dependencies: io, pandas, requests, requests_html. Each of these comes with Anaconda, except for requests_html which you must install.
+```sh
++ pandas
++ matplotlib
++ python-dotenv
++ fpdf
++ yahoo-fin
++ quandl
+```
+Note: Yahoo fin has the following dependencies: io, pandas, requests, requests_html. Each of these comes with Anaconda, except for requests_html which you must install.
 
 ## Credentials
 
@@ -59,4 +60,4 @@ This program is licensed under the terms of the MIT License. For more detailed i
 
 ## Reference List
 
-For a list of references, see [CREDITS.md](CREDITS.md)
+For a list of references, see [CREDITS.md](CREDITS.md).
