@@ -1,3 +1,6 @@
+import os
+import pytest
+
 
 from app.stock_analysis import sort_growth, min_growth, max_growth
 
