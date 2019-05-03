@@ -15,7 +15,7 @@ Python 3.7, Pip
 
 ### Installations
 
-Using pip, install the following:
+Using pip, install the following in your virtual environment:
 pandas,
 matplotlib,
 python-dotenv,
@@ -25,17 +25,20 @@ quandl
 
 Yahoo fin has the following dependencies: io, pandas, requests, requests_html. Each of these comes with Anaconda, except for requests_html which you must install.
 
-```sh
-pip install -r requirements.txt
-```
-
 ## Credentials
 
-You will need a Quandl API key to run this program. Inside a .env file, please enter the following: QUANDL_API_KEY = "MY-API-KEY" with your key in place of MY-API-KEY. You can sign up for Quandl and get an API key here: https://www.quandl.com/sign-up-modal?defaultModal=showSignUp
+You will need a Quandl API key to run this program. Inside a .env file in the root directory of your repository, please enter the following: QUANDL_API_KEY = "MY-API-KEY" with your key in place of MY-API-KEY. 
+```sh
+Ex: QUANDLE_API_KEY = "AbCdE123456789"
+```
+You can sign up for Quandl and get an API key [here](https://www.quandl.com/sign-up-modal?defaultModal=showSignUp).
 
 ## To run
 
-To run this program, navigate to the command line of your computer and activate your virtual environment. Use the command line to navigate to your portfolio-analyst folder and run `python app/stock_analysis.py`
+To run this program, navigate to the command line of your computer and activate your virtual environment. Use the command line to navigate to your portfolio-analyst folder and run:
+```sh
+python app/stock_analysis.py
+```
 
 ## How to use
 
@@ -45,9 +48,9 @@ Follow the prompts given to you on the command line and enter the ticker symbols
 
 This program can be tested using pytest, which can be downloaded to the virtual environment to run tests from the command line with the pytest command. 
 ```sh
-pytest --disable-pytest-warnings
+pytest 
 ```
-It is recommended to deploy the project to a continuous integration server, such as [Travis CI](https://travis-ci.org/) for continuous automated testing as further modifications are made to the code. 
+It is recommended to deploy the project to a continuous integration service, such as [Travis CI](https://travis-ci.org/) for continuous automated testing as further modifications are made to the code. 
 
 
 ## License
