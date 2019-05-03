@@ -6,7 +6,7 @@ This program provides extra information about the user's stock portfolio by allo
 
 ## How to Get Started
 
-Fork this repository to your local device. Create a virtual environment for this project, activate it, and install the necessary packages (listed under installations).
+Fork this repository and clone or download it to your local device. Create a virtual environment for this project, activate it, and install the necessary packages (listed under installations).
 
 ## Prerequisites
 
@@ -45,3 +45,7 @@ Follow the prompts given to you on the command line and enter the ticker symbols
 ```sh
 pytest --disable-pytest-warnings
 ```
+
+## License
+
+This program is licensed under the terms of the MIT License. For more details see [LICENSE.md](LICENSE.md)
