@@ -17,6 +17,7 @@ def max_growth(c_list):
     max_value = sort_growth(c_list)[-1]
     return max_value
 
+#create table of stock data
 def maketable(analysis_table):
     #header
     output = " Performance Metrics by Stock "
@@ -67,7 +68,7 @@ if __name__ == "__main__":
                 stock_tickers.append(ticker_choice)
             except ValueError:
                 print("Having trouble finding that ticker symbol! Please check if it is correct and try again.")
-
+    #prevent error from entering a portfolio with no stocks from reaching user
     if len(stock_tickers) == 0:
         print("Your portfolio is empty. To create an analysis PDF, you must enter at least one stock into your portfolio.")
     else:
@@ -81,7 +82,7 @@ if __name__ == "__main__":
         end = end.strftime('%Y-%m-%d')
         start = start.strftime('%Y-%m-%d')
 
-            #Yahoo Finance Workaround
+        #Yahoo Finance Workaround, scrapes data off of Yahoo Finance webpage
         next_year = str(dt.date.today().year + 1)
         year_category = "Next Year (" + next_year + ")"
         earnings_estimates = []
@@ -146,7 +147,7 @@ if __name__ == "__main__":
             portfolio_list.append(ticker)
         portfolio_string = ", ".join(portfolio_list)
 
-            #REFERENCED: https://www.youtube.com/watch?v=1tw9KW6JspY
+        #REFERENCED: https://www.youtube.com/watch?v=1tw9KW6JspY
         analysis_table = [[' Stock '], stock_tickers, [' Earnings Estimate '], earnings_estimates, [' EPS Trend '], eps_trends, [' Growth Estimate '], growth_estimates]
 
         title = "Your Portfolio Analysis"
@@ -159,9 +160,8 @@ if __name__ == "__main__":
         pdf.cell(80, 25, "Your portfolio includes " + portfolio_string + " .")
         pdf.cell(20, 20, " ", 0, 2, 'C')
         pdf.set_font('Arial', size = 12)
-            #REFERENCE: https://pyfpdf.readthedocs.io/en/latest/reference/multi_cell/index.html
+        #REFERENCE: https://pyfpdf.readthedocs.io/en/latest/reference/multi_cell/index.html
         pdf.multi_cell(0, 10, maketable(analysis_table), 0, 4, 'C')
-                #pdf.cell(-30)
         pdf.cell(10, 5, " ", 0, 2, 'C')
         pdf.cell(10, 2, "Positive growth stocks may indicate future profitability. Consider further evaluating negative growth stocks within your portfolio.", 0, 1, 'L')
         pdf.cell(10, 5, " ", 0, 2, 'C')
