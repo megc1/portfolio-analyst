@@ -2,7 +2,8 @@
 def check_ticker(ticker_symbol):
     return get_data(ticker_symbol)
 
-#sorting percentages tutorial: https://www.geeksforgeeks.org/python-sort-a-list-of-percentage/
+#sort list of string percentages and return float version
+#Reference: Python #1
 def sort_growth(a_list):
     a_list.sort(key = lambda x: float (x[:-1]))
     return a_list
@@ -18,6 +19,7 @@ def max_growth(c_list):
     return max_value
 
 #create table of stock data
+#Reference: Python #6
 def maketable(analysis_table):
     #header
     output = " Performance Metrics by Stock "
@@ -38,16 +40,14 @@ if __name__ == "__main__":
     import os
     from dotenv import load_dotenv
     from yahoo_fin.stock_info import get_analysts_info, get_data
-    #http://www.fpdf.org/en/tutorial/index.php
     from fpdf import FPDF
-    #REFERENCED: https://www.programcreek.com/python/example/90889/dotenv.load_dotenv
     load_dotenv()
+    #References: Python #2, FPDF #1, Quandl #1
 
     #API Configuration
-    #REFERENCED: https://docs.quandl.com/docs/python-installation#section-authentication
     quandl.ApiConfig.api_key = os.environ.get('QUANDL_API_KEY')
 
-    #welcome message
+    #Welcome message
     print("Welcome to your portfolio analysis tool!")
     stock_tickers = [] #ticker symbols of stocks in portfolio
     data = []
@@ -72,11 +72,7 @@ if __name__ == "__main__":
     if len(stock_tickers) == 0:
         print("Your portfolio is empty. To create an analysis PDF, you must enter at least one stock into your portfolio.")
     else:
-        #REFERENCED: https://www.quandl.com/tools/python
-        #REFERENCED: https://pythonprogramming.net/using-quandl-data/
-        #REFERENCED: https://plot.ly/matplotlib/figure-labels/
-        #REFERENCED: https://docs.quandl.com/docs/python-tables
-        #REFERENCED: https://stackoverflow.com/questions/32490629/getting-todays-date-in-yyyy-mm-dd-in-python, https://stackoverflow.com/questions/5158160/python-get-datetime-for-3-years-ago-today
+        #References: Quandl #2/3, Python #3/4/5, Matplotlib #1
         end = dt.datetime.today() - dt.timedelta(days=1)
         start = dt.datetime.today() - dt.timedelta(days=365)
         end = end.strftime('%Y-%m-%d')
@@ -135,23 +131,20 @@ if __name__ == "__main__":
             plt.ylabel('Individual Daily Returns')
             plt.xlabel('Date')
             plt.title('How have your stocks performed in the past?')
-            #REFERENCE: https://matplotlib.org/api/_as_gen/matplotlib.pyplot.savefig.html
+            #Reference: Matplotlib #2
         plt.savefig('past_returns.png') #Save chart to png
 
             
-        #Reference: https://stackoverflow.com/questions/51864730/python-what-is-the-process-to-create-pdf-reports-with-charts-from-a-db
-        #Reference (FPDF documentation/tutorial/examples): https://github.com/reingart/pyfpdf
+        #Reference: FPDF #2
         written_date = dt.datetime.today().strftime('%Y-%m-%d')
         portfolio_list = []
         for ticker in stock_tickers:
             portfolio_list.append(ticker)
         portfolio_string = ", ".join(portfolio_list)
 
-        #REFERENCED: https://www.youtube.com/watch?v=1tw9KW6JspY
         analysis_table = [[' Stock '], stock_tickers, [' Earnings Estimate '], earnings_estimates, [' EPS Trend '], eps_trends, [' Growth Estimate '], growth_estimates]
-
-        title = "Your Portfolio Analysis"
-            
+        
+        #Reference: FPDF #3, #4            
         pdf = FPDF('L', 'mm', 'A4')
         pdf.add_page('L')
         pdf.set_font("Arial", size=24)
@@ -160,7 +153,6 @@ if __name__ == "__main__":
         pdf.cell(80, 25, "Your portfolio includes " + portfolio_string + " .")
         pdf.cell(20, 20, " ", 0, 2, 'C')
         pdf.set_font('Arial', size = 12)
-        #REFERENCE: https://pyfpdf.readthedocs.io/en/latest/reference/multi_cell/index.html
         pdf.multi_cell(0, 10, maketable(analysis_table), 0, 4, 'C')
         pdf.cell(10, 5, " ", 0, 2, 'C')
         pdf.cell(10, 2, "Positive growth stocks may indicate future profitability. Consider further evaluating negative growth stocks within your portfolio.", 0, 1, 'L')
@@ -176,7 +168,6 @@ if __name__ == "__main__":
             pdf.cell(0, 0, "Your negative growth stocks: " + neg_growth_string + ".", 0, 1, 'L')
         else:
             pdf.cell(0, 0, "You have no negative growth stocks.", 6, 4, 'L')
-        #Referenced documentation: https://pyfpdf.readthedocs.io/en/latest/reference/image/index.html
         pdf.add_page('L')
         w = 70
         h = 60
