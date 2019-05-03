@@ -119,7 +119,7 @@ if __name__ == "__main__":
         highest_growth = (max_growth(sorted_growth))
 
 
-        #Quandl wiki no longer updating, useful for 2017-2018 fiscal year data but not today's data
+        #Quandl wiki no longer updating: Gives good historical overview of trends, in the future (2+ years) would be wise to take advantage of one of the stock data APIs currently in development to replace the deprecated ones for more up-to-date data
         data = quandl.get_table('WIKI/PRICES', ticker = stock_tickers, qopts = { 'columns': ['date', 'ticker', 'adj_close'] }, date = { 'gte': '2017-01-01', 'lte': '2018-12-31'}, paginate=True)
         df = data.set_index('date')
         table = df.pivot(columns='ticker')
@@ -154,7 +154,7 @@ if __name__ == "__main__":
         pdf = FPDF('L', 'mm', 'A4')
         pdf.add_page('L')
         pdf.set_font("Arial", size=24)
-        pdf.cell(80, 10, "Your Portfolio Analysis", 0, 2, 'C')
+        pdf.cell(80, 10, "Your Portfolio Analysis", 0, 2, True, 'C')
         pdf.set_font("Arial", size = 14)
         pdf.cell(80, 25, "Your portfolio includes " + portfolio_string + " .")
         pdf.cell(20, 20, " ", 0, 2, 'C')
@@ -162,25 +162,29 @@ if __name__ == "__main__":
             #REFERENCE: https://pyfpdf.readthedocs.io/en/latest/reference/multi_cell/index.html
         pdf.multi_cell(0, 10, maketable(analysis_table), 0, 4, 'C')
                 #pdf.cell(-30)
-        pdf.cell(10, 15, "Positive growth stocks may indicate future profitability. Consider further evaluating negative growth stocks within your portfolio.")
         pdf.cell(10, 5, " ", 0, 2, 'C')
-        pdf.cell(10, 15, "The growth estimaates in your portfolio range from "  + lowest_growth + " to " + highest_growth + ".")
+        pdf.cell(10, 2, "Positive growth stocks may indicate future profitability. Consider further evaluating negative growth stocks within your portfolio.", 0, 1, 'L')
+        pdf.cell(10, 5, " ", 0, 2, 'C')
+        pdf.cell(10, 2, "The growth estimates in your portfolio range from "  + lowest_growth + " to " + highest_growth + ".", 0, 1, 'L')
         pdf.cell(20, 10, " ", 0, 2, 'C')
         if len(positive_growth_stocks)>0:
-            pdf.cell(0, 10, "Your positive growth stocks: " + pos_growth_string + ".", 6, 4, 'C')
+            pdf.cell(0, 0, "Your positive growth stocks: " + pos_growth_string + ".", 0, 1, 'L')
         else:
-            pdf.cell(0, 10, "You have no positive growth stocks.", 6, 4, 'C')
-        pdf.cell(20, 10, " ", 0, 2, 'C')
+            pdf.cell(0, 0, "You have no positive growth stocks.", 1, 1, 'L')
+        pdf.cell(20, 8, " ", 0, 2, 'C')
         if len(negative_growth_stocks)>0:
-            pdf.cell(0, 10, "Your negative growth stocks: " + neg_growth_string + ".", 6, 4, 'C')
+            pdf.cell(0, 0, "Your negative growth stocks: " + neg_growth_string + ".", 0, 1, 'L')
         else:
-            pdf.cell(0, 10, "You have no negative growth stocks.", 6, 4, 'C')
+            pdf.cell(0, 0, "You have no negative growth stocks.", 6, 4, 'L')
         #Referenced documentation: https://pyfpdf.readthedocs.io/en/latest/reference/image/index.html
         pdf.add_page('L')
         w = 70
         h = 60
-        pdf.image('past_returns.png', x=0, y=25, w=290, h=140)
-        pdf.cell(10, 15, "Historical returns may present insights into the stability and long-term viability of each of the stocks in your portfolio.")
-        pdf.cell(20, 15, "Look for relative consistency and a history of positive returns to indicate a good long-term investment.")
-        pdf.cell(10, 5, " ", 0, 2, 'C')
+        pdf.set_font("Arial", size=24)
+        pdf.cell(80, 15, "Historical Performance of Your Stocks", 0, 2, True, 'C')
+        pdf.set_font("Arial", size = 12)
+        pdf.image('past_returns.png', x=0, y=35, w=290, h=140)
+        pdf.cell(10, 3, "Historical returns may present insights into the stability and long-term viability of each of the stocks in your portfolio.", 0, 1, 'L')
+        pdf.cell(10, 5, " ", 0, 1, 'C')
+        pdf.cell(20, 3, "Look for relative consistency and a history of positive returns to identify more trustworthy long-term investments.", 0, 1, 'L')
         pdf.output("PortfolioAnalysis" + written_date + ".pdf", 'F')          
