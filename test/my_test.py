@@ -1,7 +1,6 @@
 import os
 import pytest
 
-
 from app.stock_analysis import sort_growth, min_growth, max_growth
 
 test_list = ["2.5%", "1.0%", "9.5%"]
