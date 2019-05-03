@@ -1,19 +1,3 @@
-import datetime as dt
-import pandas as pd
-import quandl
-import matplotlib.pyplot as plt
-import os
-from dotenv import load_dotenv
-from yahoo_fin.stock_info import get_analysts_info, get_data
-#http://www.fpdf.org/en/tutorial/index.php
-from fpdf import FPDF
-#REFERENCED: https://www.programcreek.com/python/example/90889/dotenv.load_dotenv
-load_dotenv()
-
-#API Configuration
-#REFERENCED: https://docs.quandl.com/docs/python-installation#section-authentication
-quandl.ApiConfig.api_key = os.environ.get('QUANDL_API_KEY')
-
 #make sure ticker symbol is value by testing using start date 04-01-2019
 def check_ticker(ticker_symbol):
     return get_data(ticker_symbol)
@@ -45,6 +29,22 @@ def maketable(analysis_table):
     return output
 
 if __name__ == "__main__":
+
+    import datetime as dt
+    import pandas as pd
+    import quandl
+    import matplotlib.pyplot as plt
+    import os
+    from dotenv import load_dotenv
+    from yahoo_fin.stock_info import get_analysts_info, get_data
+    #http://www.fpdf.org/en/tutorial/index.php
+    from fpdf import FPDF
+    #REFERENCED: https://www.programcreek.com/python/example/90889/dotenv.load_dotenv
+    load_dotenv()
+
+    #API Configuration
+    #REFERENCED: https://docs.quandl.com/docs/python-installation#section-authentication
+    quandl.ApiConfig.api_key = os.environ.get('QUANDL_API_KEY')
 
     #welcome message
     print("Welcome to your portfolio analysis tool!")
@@ -173,7 +173,6 @@ if __name__ == "__main__":
     h = 60
     pdf.image('past_returns.png', x=0, y=25, w=290, h=140)
     pdf.output("PortfolioAnalysis" + written_date + ".pdf", 'F')
-
 
 
 
