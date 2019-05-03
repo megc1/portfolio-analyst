@@ -2,7 +2,8 @@
 def check_ticker(ticker_symbol):
     return get_data(ticker_symbol)
 
-#sorting percentages tutorial: https://www.geeksforgeeks.org/python-sort-a-list-of-percentage/
+#sort list of string percentages and return float version
+#Reference: Python #1
 def sort_growth(a_list):
     a_list.sort(key = lambda x: float (x[:-1]))
     return a_list
@@ -17,6 +18,8 @@ def max_growth(c_list):
     max_value = sort_growth(c_list)[-1]
     return max_value
 
+#create table of stock data
+#Reference: Python #6
 def maketable(analysis_table):
     #header
     output = " Performance Metrics by Stock "
@@ -37,22 +40,19 @@ if __name__ == "__main__":
     import os
     from dotenv import load_dotenv
     from yahoo_fin.stock_info import get_analysts_info, get_data
-    #http://www.fpdf.org/en/tutorial/index.php
     from fpdf import FPDF
-    #REFERENCED: https://www.programcreek.com/python/example/90889/dotenv.load_dotenv
     load_dotenv()
+    #References: Python #2, FPDF #1, Quandl #1
 
     #API Configuration
-    #REFERENCED: https://docs.quandl.com/docs/python-installation#section-authentication
     quandl.ApiConfig.api_key = os.environ.get('QUANDL_API_KEY')
 
-    #welcome message
+    #Welcome message
     print("Welcome to your portfolio analysis tool!")
     stock_tickers = [] #ticker symbols of stocks in portfolio
     data = []
 
     #Input validation of stock tickers
-    #TO DO: add validation to look up stock ticker and make sure it exists 
     while True: 
         ticker_choice = input("Which stock would you like to add to your portfolio? Please enter its ticker symbol or enter \"DONE\" if finished. ")
         if ticker_choice == "DONE":
@@ -68,111 +68,114 @@ if __name__ == "__main__":
                 stock_tickers.append(ticker_choice)
             except ValueError:
                 print("Having trouble finding that ticker symbol! Please check if it is correct and try again.")
+    #prevent error from entering a portfolio with no stocks from reaching user
+    if len(stock_tickers) == 0:
+        print("Your portfolio is empty. To create an analysis PDF, you must enter at least one stock into your portfolio.")
+    else:
+        #References: Quandl #2/3, Python #3/4/5, Matplotlib #1
+        end = dt.datetime.today() - dt.timedelta(days=1)
+        start = dt.datetime.today() - dt.timedelta(days=365)
+        end = end.strftime('%Y-%m-%d')
+        start = start.strftime('%Y-%m-%d')
 
-    #REFERENCED: https://www.quandl.com/tools/python
-    #REFERENCED: https://pythonprogramming.net/using-quandl-data/
-    #REFERENCED: https://plot.ly/matplotlib/figure-labels/
-    #REFERENCED: https://docs.quandl.com/docs/python-tables
-    #REFERENCED: https://stackoverflow.com/questions/32490629/getting-todays-date-in-yyyy-mm-dd-in-python, https://stackoverflow.com/questions/5158160/python-get-datetime-for-3-years-ago-today
-    end = dt.datetime.today() - dt.timedelta(days=1)
-    start = dt.datetime.today() - dt.timedelta(days=365)
-    end = end.strftime('%Y-%m-%d')
-    start = start.strftime('%Y-%m-%d')
+        #Yahoo Finance Workaround, scrapes data off of Yahoo Finance webpage
+        next_year = str(dt.date.today().year + 1)
+        year_category = "Next Year (" + next_year + ")"
+        earnings_estimates = []
+        eps_trends = []
+        growth_estimates = []
+        negative_growth_stocks = []
+        positive_growth_stocks = []
 
-    #Yahoo Finance Workaround
-    next_year = str(dt.date.today().year + 1)
-    year_category = "Next Year (" + next_year + ")"
-    earnings_estimates = []
-    eps_trends = []
-    growth_estimates = []
-    negative_growth_stocks = []
-    positive_growth_stocks = []
+        for ticker in stock_tickers:
+            analysts_data = get_analysts_info(ticker)
+            this_earnings_est = analysts_data['Earnings Estimate'].iloc[1][4]
+            earnings_estimates.append(this_earnings_est)
+            this_eps_trend = analysts_data['EPS Trend'].iloc[0][4]
+            eps_trends.append(this_eps_trend)
+            this_gest = analysts_data['Growth Estimates'].iloc[0][1]
+            growth_estimates.append(this_gest)
+            if '-' in this_gest:
+                negative_growth_stocks.append(ticker)     
+            else:
+                positive_growth_stocks.append(ticker)
+                
+        neg_growth_string = ", ".join(negative_growth_stocks)
+        pos_growth_string = ", ".join(positive_growth_stocks)
 
-    for ticker in stock_tickers:
-        analysts_data = get_analysts_info(ticker)
-        this_earnings_est = analysts_data['Earnings Estimate'].iloc[1][4]
-        earnings_estimates.append(this_earnings_est)
-        this_eps_trend = analysts_data['EPS Trend'].iloc[0][4]
-        eps_trends.append(this_eps_trend)
-        this_gest = analysts_data['Growth Estimates'].iloc[0][1]
-        growth_estimates.append(this_gest)
-        if '-' in this_gest:
-            negative_growth_stocks.append(ticker)
+        average_value = 0.0
+        min_value = 0.0
+        max_value = 0.0
+        list_length = 0
+
+        #growth estimates sorted and converted to float:
+        sorted_growth = sort_growth(growth_estimates)
+
+        #find smallest growth, highest growth, and average growth
+        lowest_growth = (min_growth(sorted_growth))
+        highest_growth = (max_growth(sorted_growth))
+
+
+        #Quandl wiki no longer updating: Gives good historical overview of trends, in the future (2+ years) would be wise to take advantage of one of the stock data APIs currently in development to replace the deprecated ones for more up-to-date data
+        data = quandl.get_table('WIKI/PRICES', ticker = stock_tickers, qopts = { 'columns': ['date', 'ticker', 'adj_close'] }, date = { 'gte': '2017-01-01', 'lte': '2018-12-31'}, paginate=True)
+        df = data.set_index('date')
+        table = df.pivot(columns='ticker')
+        returns = table.pct_change()
+
+
+        #Returns chart
+        plt.figure(figsize=(20, 8))
+        for col in returns.columns.values:
+            plt.plot(returns.index, returns[col], lw=3, alpha=0.8,label=col)
+            plt.legend(loc=1, fontsize=12)
+            plt.ylabel('Individual Daily Returns')
+            plt.xlabel('Date')
+            plt.title('How have your stocks performed in the past?')
+            #Reference: Matplotlib #2
+        plt.savefig('past_returns.png') #Save chart to png
+
             
-        else:
-            positive_growth_stocks.append(ticker)
+        #Reference: FPDF #2
+        written_date = dt.datetime.today().strftime('%Y-%m-%d')
+        portfolio_list = []
+        for ticker in stock_tickers:
+            portfolio_list.append(ticker)
+        portfolio_string = ", ".join(portfolio_list)
+
+        analysis_table = [[' Stock '], stock_tickers, [' Earnings Estimate '], earnings_estimates, [' EPS Trend '], eps_trends, [' Growth Estimate '], growth_estimates]
         
-    neg_growth_string = ", ".join(negative_growth_stocks)
-    pos_growth_string = ", ".join(positive_growth_stocks)
-
-    average_value = 0.0
-    min_value = 0.0
-    max_value = 0.0
-    list_length = 0
-
-    #growth estimates sorted and converted to float:
-    sorted_growth = sort_growth(growth_estimates)
-
-    #find smallest growth, highest growth, and average growth
-    lowest_growth = (min_growth(sorted_growth))
-    highest_growth = (max_growth(sorted_growth))
-
-
-    #Quandl wiki no longer updating, useful for 2017-2018 fiscal year data but not today's data
-    data = quandl.get_table('WIKI/PRICES', ticker = stock_tickers, qopts = { 'columns': ['date', 'ticker', 'adj_close'] }, date = { 'gte': '2017-01-01', 'lte': '2018-12-31'}, paginate=True)
-    df = data.set_index('date')
-    table = df.pivot(columns='ticker')
-    returns = table.pct_change()
-
-
-    #Returns chart
-    plt.figure(figsize=(20, 8))
-    for col in returns.columns.values:
-        plt.plot(returns.index, returns[col], lw=3, alpha=0.8,label=col)
-        plt.legend(loc=1, fontsize=12)
-        plt.ylabel('Individual Daily Returns')
-        plt.xlabel('Date')
-        plt.title('How have your stocks performed in the past?')
-    #REFERENCE: https://matplotlib.org/api/_as_gen/matplotlib.pyplot.savefig.html
-    plt.savefig('past_returns.png') #Save chart to png
-
-
-    #Reference: https://stackoverflow.com/questions/51864730/python-what-is-the-process-to-create-pdf-reports-with-charts-from-a-db
-    #Reference (FPDF documentation/tutorial/examples): https://github.com/reingart/pyfpdf
-    written_date = dt.datetime.today().strftime('%Y-%m-%d')
-    portfolio_list = []
-    for ticker in stock_tickers:
-        portfolio_list.append(ticker)
-    portfolio_string = ", ".join(portfolio_list)
-
-    #REFERENCED: https://www.youtube.com/watch?v=1tw9KW6JspY
-    analysis_table = [[' Stock '], stock_tickers, [' Earnings Estimate '], earnings_estimates, [' EPS Trend '], eps_trends, [' Growth Estimate '], growth_estimates]
-
-
-    pdf = FPDF('L', 'mm', 'A4')
-    pdf.add_page('L')
-    pdf.set_font("Arial", size=24)
-    pdf.cell(80, 10, "Your Portfolio Analysis", 0, 2, 'C')
-    pdf.set_font("Arial", size = 14)
-    pdf.cell(80, 25, "Your portfolio includes " + portfolio_string + " .")
-    pdf.cell(20, 20, " ", 0, 2, 'C')
-    pdf.set_font('Arial', size = 12)
-    #REFERENCE: https://pyfpdf.readthedocs.io/en/latest/reference/multi_cell/index.html
-    pdf.multi_cell(0, 10, maketable(analysis_table), 0, 4, 'C')
-    #pdf.cell(-30)
-    pdf.cell(10, 15, "Positive growth stocks may indicate future profitability. Consider further evaluating negative growth stocks within your portfolio.")
-    pdf.cell(10, 5, " ", 0, 2, 'C')
-    pdf.cell(10, 15, "The growth estimaates in your portfolio range from "  + lowest_growth + " to " + highest_growth + ".")
-    pdf.cell(20, 10, " ", 0, 2, 'C')
-    pdf.cell(0, 10, "Your positive growth stocks: " + pos_growth_string + ".", 6, 4, 'C')
-    pdf.cell(20, 10, " ", 0, 2, 'C')
-    pdf.cell(0, 10, "Your negative growth stocks: " + neg_growth_string + ".", 6, 4, 'C')
-    #Referenced documentation: https://pyfpdf.readthedocs.io/en/latest/reference/image/index.html
-    pdf.add_page('L')
-    w = 70
-    h = 60
-    pdf.image('past_returns.png', x=0, y=25, w=290, h=140)
-    pdf.output("PortfolioAnalysis" + written_date + ".pdf", 'F')
-
-
-
+        #Reference: FPDF #3, #4            
+        pdf = FPDF('L', 'mm', 'A4')
+        pdf.add_page('L')
+        pdf.set_font("Arial", size=24)
+        pdf.cell(80, 10, "Your Portfolio Analysis", 0, 2, True, 'C')
+        pdf.set_font("Arial", size = 14)
+        pdf.cell(80, 25, "Your portfolio includes " + portfolio_string + " .")
+        pdf.cell(20, 20, " ", 0, 2, 'C')
+        pdf.set_font('Arial', size = 12)
+        pdf.multi_cell(0, 10, maketable(analysis_table), 0, 4, 'C')
+        pdf.cell(10, 5, " ", 0, 2, 'C')
+        pdf.cell(10, 2, "Positive growth stocks may indicate future profitability. Consider further evaluating negative growth stocks within your portfolio.", 0, 1, 'L')
+        pdf.cell(10, 5, " ", 0, 2, 'C')
+        pdf.cell(10, 2, "The growth estimates in your portfolio range from "  + lowest_growth + " to " + highest_growth + ".", 0, 1, 'L')
+        pdf.cell(20, 10, " ", 0, 2, 'C')
+        if len(positive_growth_stocks)>0:
+            pdf.cell(0, 0, "Your positive growth stocks: " + pos_growth_string + ".", 0, 1, 'L')
+        else:
+            pdf.cell(0, 0, "You have no positive growth stocks.", 1, 1, 'L')
+        pdf.cell(20, 8, " ", 0, 2, 'C')
+        if len(negative_growth_stocks)>0:
+            pdf.cell(0, 0, "Your negative growth stocks: " + neg_growth_string + ".", 0, 1, 'L')
+        else:
+            pdf.cell(0, 0, "You have no negative growth stocks.", 6, 4, 'L')
+        pdf.add_page('L')
+        w = 70
+        h = 60
+        pdf.set_font("Arial", size=24)
+        pdf.cell(80, 15, "Historical Performance of Your Stocks", 0, 2, True, 'C')
+        pdf.set_font("Arial", size = 12)
+        pdf.image('past_returns.png', x=0, y=35, w=290, h=140)
+        pdf.cell(10, 3, "Historical returns may present insights into the stability and long-term viability of each of the stocks in your portfolio.", 0, 1, 'L')
+        pdf.cell(10, 5, " ", 0, 1, 'C')
+        pdf.cell(20, 3, "Look for relative consistency and a history of positive returns to identify more trustworthy long-term investments.", 0, 1, 'L')
+        pdf.output("PortfolioAnalysis" + written_date + ".pdf", 'F')          
