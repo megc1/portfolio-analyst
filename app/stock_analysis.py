@@ -69,8 +69,6 @@ if __name__ == "__main__":
             except ValueError:
                 print("Having trouble finding that ticker symbol! Please check if it is correct and try again.")
 
-
-
     #REFERENCED: https://www.quandl.com/tools/python
     #REFERENCED: https://pythonprogramming.net/using-quandl-data/
     #REFERENCED: https://plot.ly/matplotlib/figure-labels/
@@ -175,6 +173,7 @@ if __name__ == "__main__":
     h = 60
     pdf.image('past_returns.png', x=0, y=25, w=290, h=140)
     pdf.output("PortfolioAnalysis" + written_date + ".pdf", 'F')
+
 
 
 
