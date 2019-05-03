@@ -166,10 +166,16 @@ if __name__ == "__main__":
         pdf.cell(10, 5, " ", 0, 2, 'C')
         pdf.cell(10, 15, "The growth estimaates in your portfolio range from "  + lowest_growth + " to " + highest_growth + ".")
         pdf.cell(20, 10, " ", 0, 2, 'C')
-        pdf.cell(0, 10, "Your positive growth stocks: " + pos_growth_string + ".", 6, 4, 'C')
+        if len(positive_growth_stocks)>0:
+            pdf.cell(0, 10, "Your positive growth stocks: " + pos_growth_string + ".", 6, 4, 'C')
+        else:
+            pdf.cell(0, 10, "You have no positive growth stocks.", 6, 4, 'C')
         pdf.cell(20, 10, " ", 0, 2, 'C')
-        pdf.cell(0, 10, "Your negative growth stocks: " + neg_growth_string + ".", 6, 4, 'C')
-                #Referenced documentation: https://pyfpdf.readthedocs.io/en/latest/reference/image/index.html
+        if len(negative_growth_stocks)>0:
+            pdf.cell(0, 10, "Your negative growth stocks: " + neg_growth_string + ".", 6, 4, 'C')
+        else:
+            pdf.cell(0, 10, "You have no negative growth stocks.", 6, 4, 'C')
+        #Referenced documentation: https://pyfpdf.readthedocs.io/en/latest/reference/image/index.html
         pdf.add_page('L')
         w = 70
         h = 60
