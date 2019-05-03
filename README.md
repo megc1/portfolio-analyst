@@ -34,7 +34,7 @@ You will need a Quandl API key to run this program. Inside a .env file, please e
 
 ## To run:
 
-To run this program, navigate to the command line of your computer and activate your virtual environment. Use the command line to navigate to your portfolio-analyst folder and run `python app/stock-analysis.py`
+To run this program, navigate to the command line of your computer and activate your virtual environment. Use the command line to navigate to your portfolio-analyst folder and run `python app/stock_analysis.py`
 
 ## How to use:
 
