@@ -86,10 +86,11 @@ if __name__ == "__main__":
         this_eps_trend = analysts_data['EPS Trend'].iloc[0][4]
         eps_trends.append(this_eps_trend)
         this_gest = analysts_data['Growth Estimates'].iloc[0][1]
+        # TODO: handle when this_gest is NaN, to prevent runtime errors
+        # breakpoint()
         growth_estimates.append(this_gest)
-        if '-' in this_gest:
+        if '-' in this_gest: #> TypeError: argument of type 'float' is not iterable (when  when this_gest is NaN)
             negative_growth_stocks.append(ticker)
-
         else:
             positive_growth_stocks.append(ticker)
 
