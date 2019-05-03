@@ -45,9 +45,9 @@ Follow the prompts given to you on the command line and enter the ticker symbols
 
 This program can be tested using pytest, which can be downloaded to the virtual environment to run tests from the command line with the pytest command. 
 ```sh
-pytest --disable-pytest-warnings
+pytest 
 ```
-It is recommended to deploy the project to a continuous integration server, such as [Travis CI](https://travis-ci.org/) for continuous automated testing as further modifications are made to the code. 
+It is recommended to deploy the project to a continuous integration service, such as [Travis CI](https://travis-ci.org/) for continuous automated testing as further modifications are made to the code. 
 
 
 ## License
