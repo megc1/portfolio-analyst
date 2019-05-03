@@ -4,4 +4,5 @@ python-dotenv
 fpdf
 yahoo_fin
 requests_html
+quandl
 pytest
