@@ -11,7 +11,10 @@ Fork this repository and clone or download it to your local device. Create a vir
 
 ### Prerequisites
 
-Python 3.7, Pip
+```sh
+* Python 3.7
+* Pip
+```
 
 ### Installations
 
