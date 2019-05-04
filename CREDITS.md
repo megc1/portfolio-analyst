@@ -10,11 +10,11 @@
   6. https://www.youtube.com/watch?v=1tw9KW6JspY
 
 
-##Matplotlib
+## Matplotlib
   1. https://plot.ly/matplotlib/figure-labels/  
   2. https://matplotlib.org/api/_as_gen/matplotlib.pyplot.savefig.html
 
-##FPDF
+## FPDF
   
   1. http://www.fpdf.org/en/tutorial/index.php  
   2. https://github.com/reingart/pyfpdf  
@@ -22,7 +22,7 @@
   4. https://pyfpdf.readthedocs.io/en/latest/reference/image/index.html
 
 
-##Quandl
+## Quandl
 
   1. https://docs.quandl.com/docs/python-installation#section-authentication  
   2. https://www.quandl.com/tools/python  
@@ -33,6 +33,6 @@
 
   1. https://github.com/s2t2/testing-123-py  
   2. https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/83cc5316cf7b132190b253a2697cd13907e179a8/notes/travis-ci.md  
-  
+
 
 
