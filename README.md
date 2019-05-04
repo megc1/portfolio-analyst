@@ -11,7 +11,7 @@ Fork this repository and clone or download it to your local device. Create a vir
 
 ### Prerequisites
 
-```sh
+```
 * Python 3.7
 * Pip
 ```
@@ -19,7 +19,7 @@ Fork this repository and clone or download it to your local device. Create a vir
 ### Installations
 
 Using pip, install the following in your virtual environment:
-```sh
+```
 * pandas
 * matplotlib
 * python-dotenv
@@ -28,7 +28,7 @@ Using pip, install the following in your virtual environment:
 * quandl
 ```
 Note: Yahoo fin has the following dependencies: 
-```sh
+```
 * io 
 * pandas 
 * requests
@@ -39,7 +39,7 @@ Each of these comes with Anaconda, except for requests_html which you must insta
 ## Credentials
 
 You will need a Quandl API key to run this program. Inside a .env file in the root directory of your repository, please enter the following: QUANDL_API_KEY = "MY-API-KEY" with your key in place of MY-API-KEY. 
-```sh
+```
 Ex: QUANDLE_API_KEY = "AbCdE123456789"
 ```
 You can sign up for Quandl and get an API key [here](https://www.quandl.com/sign-up-modal?defaultModal=showSignUp).
@@ -47,7 +47,7 @@ You can sign up for Quandl and get an API key [here](https://www.quandl.com/sign
 ## To run
 
 To run this program, navigate to the command line of your computer and activate your virtual environment. Use the command line to navigate to your portfolio-analyst folder and run:
-```sh
+```
 python app/stock_analysis.py
 ```
 
@@ -58,7 +58,7 @@ Follow the prompts given to you on the command line and enter the ticker symbols
 ## To test
 
 This program can be tested using pytest, which can be downloaded to the virtual environment to run tests from the command line with the pytest command: 
-```sh
+```
 pytest 
 ```
 It is recommended to deploy the project to a continuous integration service, such as [Travis CI](https://travis-ci.org/) for continuous automated testing as further modifications are made to the code. 
