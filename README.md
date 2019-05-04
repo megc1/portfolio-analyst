@@ -57,7 +57,7 @@ Follow the prompts given to you on the command line and enter the ticker symbols
 
 ## To test
 
-This program can be tested using pytest, which can be downloaded to the virtual environment to run tests from the command line with the pytest command. 
+This program can be tested using pytest, which can be downloaded to the virtual environment to run tests from the command line with the pytest command: 
 ```sh
 pytest 
 ```
