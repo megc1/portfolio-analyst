@@ -19,7 +19,7 @@ def max_growth(c_list):
     return max_value
 
 #create table of stock data
-#Reference: Python #6
+#Reference: Python #4
 def maketable(analysis_table):
     #header
     output = " Performance Metrics by Stock "
@@ -72,15 +72,8 @@ if __name__ == "__main__":
     if len(stock_tickers) == 0:
         print("Your portfolio is empty. To create an analysis PDF, you must enter at least one stock into your portfolio.")
     else:
-        #References: Quandl #2/3, Python #3/4/5, Matplotlib #1
-        end = dt.datetime.today() - dt.timedelta(days=1)
-        start = dt.datetime.today() - dt.timedelta(days=365)
-        end = end.strftime('%Y-%m-%d')
-        start = start.strftime('%Y-%m-%d')
-
+        #References: Quandl #2/3, Matplotlib #1
         #Yahoo Finance Workaround, scrapes data off of Yahoo Finance webpage
-        next_year = str(dt.date.today().year + 1)
-        year_category = "Next Year (" + next_year + ")"
         earnings_estimates = []
         eps_trends = []
         growth_estimates = []
@@ -103,15 +96,13 @@ if __name__ == "__main__":
         neg_growth_string = ", ".join(negative_growth_stocks)
         pos_growth_string = ", ".join(positive_growth_stocks)
 
-        average_value = 0.0
         min_value = 0.0
         max_value = 0.0
-        list_length = 0
 
         #growth estimates sorted and converted to float:
         sorted_growth = sort_growth(growth_estimates)
 
-        #find smallest growth, highest growth, and average growth
+        #find smallest growth, highest growth
         lowest_growth = (min_growth(sorted_growth))
         highest_growth = (max_growth(sorted_growth))
 
@@ -124,6 +115,7 @@ if __name__ == "__main__":
 
 
         #Returns chart
+        #Reference: Matplotlib #2
         plt.figure(figsize=(20, 8))
         for col in returns.columns.values:
             plt.plot(returns.index, returns[col], lw=3, alpha=0.8,label=col)
@@ -131,7 +123,6 @@ if __name__ == "__main__":
             plt.ylabel('Individual Daily Returns')
             plt.xlabel('Date')
             plt.title('How have your stocks performed in the past?')
-            #Reference: Matplotlib #2
         plt.savefig('past_returns.png') #Save chart to png
 
             

@@ -5,9 +5,7 @@
   1. https://www.geeksforgeeks.org/python-sort-a-list-of-percentage/  
   2. https://www.programcreek.com/python/example/90889/dotenv.load_dotenv  
   3. https://pythonprogramming.net/using-quandl-data/  
-  4. https://stackoverflow.com/questions/32490629/getting-todays-date-in-yyyy-mm-dd-in-python  
-  5. https://stackoverflow.com/questions/5158160/python-get-datetime-for-3-years-ago-today  
-  6. https://www.youtube.com/watch?v=1tw9KW6JspY
+  4. https://www.youtube.com/watch?v=1tw9KW6JspY
 
 
 ## Matplotlib
