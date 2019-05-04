@@ -102,7 +102,7 @@ if __name__ == "__main__":
         #growth estimates sorted and converted to float:
         sorted_growth = sort_growth(growth_estimates)
 
-        #find smallest growth, highest growth, and average growth
+        #find smallest growth, highest growth
         lowest_growth = (min_growth(sorted_growth))
         highest_growth = (max_growth(sorted_growth))
 
@@ -115,6 +115,7 @@ if __name__ == "__main__":
 
 
         #Returns chart
+        #Reference: Matplotlib #2
         plt.figure(figsize=(20, 8))
         for col in returns.columns.values:
             plt.plot(returns.index, returns[col], lw=3, alpha=0.8,label=col)
@@ -122,7 +123,6 @@ if __name__ == "__main__":
             plt.ylabel('Individual Daily Returns')
             plt.xlabel('Date')
             plt.title('How have your stocks performed in the past?')
-            #Reference: Matplotlib #2
         plt.savefig('past_returns.png') #Save chart to png
 
             
